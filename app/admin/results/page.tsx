@@ -1,4 +1,4 @@
-import { getServerSupabaseClient } from '../../../lib/supabaseClient';
+import { getSupabaseServerClient } from '../../../lib/supabaseServerClient';
 import { saveMatchResult } from './actions';
 
 /**
@@ -7,7 +7,7 @@ import { saveMatchResult } from './actions';
  * page; others receive an unauthorized message.
  */
 export default async function AdminResultsPage() {
-  const supabase = getServerSupabaseClient();
+  const supabase = getSupabaseServerClient();
   // Get current session and admin flag
   const {
     data: { session },

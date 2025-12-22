@@ -1,5 +1,4 @@
-import { getServerSupabaseClient } from '../../lib/supabaseClient';
-import { cookies } from 'next/headers';
+import { getSupabaseServerClient } from '../../lib/supabaseServerClient';
 import PredictionForm from './predictionForm';
 
 /**
@@ -10,7 +9,7 @@ import PredictionForm from './predictionForm';
  * PredictionForm component.
  */
 export default async function PredictionsPage() {
-  const supabase = getServerSupabaseClient();
+  const supabase = getSupabaseServerClient();
   const {
     data: { session },
   } = await supabase.auth.getSession();

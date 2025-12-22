@@ -24,7 +24,8 @@ The project uses the Next.js app router.  Pages live under the `app/` directory 
 | `app/predictions/page.tsx` | Main interface for participants to enter predicted scores.  It displays fixtures grouped by stage; inputs lock automatically at kickoff using the match’s `kickoff_at` timestamp. |
 | `app/leaderboard/page.tsx` | Read‑only leaderboard displaying each participant’s total points.  Admins may also view a per‑match breakdown in the future. |
 | `app/admin/results/page.tsx` | Admin‑only page to record real match results, including penalties.  Once results are saved, the system recalculates points and updates the bracket. |
-| `lib/supabaseClient.ts` | Utility to initialise the Supabase client on the server and in the browser. |
+| `lib/supabaseBrowserClient.ts` | Returns a browser‑side Supabase client for use in client components. |
+| `lib/supabaseServerClient.ts` | Returns a server‑side Supabase client bound to the current request’s cookies. |
 | `db/schema.sql` | PostgreSQL schema defining tables (`profiles`, `tournaments`, `teams`, `matches`, `predictions`) and views for group tables, best third ranking, bracket generation, per‑match points and leaderboard.  It also includes example row‑level security policies. |
 
 The code is intentionally incomplete; most functions are placeholders that should be filled in with queries and business logic.  Nevertheless the skeleton demonstrates how to organise pages, how to call server actions, and how to enforce RBAC.

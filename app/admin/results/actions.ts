@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from 'next/cache';
-import { getServerSupabaseClient } from '../../../lib/supabaseClient';
+import { getSupabaseServerClient } from '../../../lib/supabaseServerClient';
 
 /**
  * Server action for admins to save real match results.  Accepts form data
@@ -18,7 +18,7 @@ export async function saveMatchResult(formData: FormData) {
   const result_away = result_away_raw === null || result_away_raw === '' ? null : Number(result_away_raw);
   const result_pens_home = result_pens_home_raw === null || result_pens_home_raw === '' ? null : Number(result_pens_home_raw);
   const result_pens_away = result_pens_away_raw === null || result_pens_away_raw === '' ? null : Number(result_pens_away_raw);
-  const supabase = getServerSupabaseClient();
+  const supabase = getSupabaseServerClient();
   await supabase
     .from('matches')
     .update({ result_home, result_away, result_pens_home, result_pens_away })

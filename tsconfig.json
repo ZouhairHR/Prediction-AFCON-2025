@@ -16,7 +16,12 @@
     "noEmit": true,
     "jsx": "preserve",
     "incremental": true,
-    "types": ["node", "@types/react", "@types/node"]
+    "types": ["node", "@types/react", "@types/node"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
+
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]

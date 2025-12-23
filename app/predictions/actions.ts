@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from 'next/cache';
-import { getSupabaseServerClient } from '../../lib/supabaseServerClient';
+import { createClient } from '../../lib/supabase/server';
 
 /**
  * Server action to save or update a prediction.  It uses upsert semantics
@@ -17,7 +17,7 @@ export async function savePrediction(formData: FormData): Promise<void> {
   const pred_pens_away_raw = formData.get('pred_pens_away');
   const pred_pens_home = pred_pens_home_raw === null || pred_pens_home_raw === '' ? null : Number(pred_pens_home_raw);
   const pred_pens_away = pred_pens_away_raw === null || pred_pens_away_raw === '' ? null : Number(pred_pens_away_raw);
-  const supabase = getSupabaseServerClient();
+  const supabase = createClient();
   await supabase.from('predictions').upsert({
     match_id,
     user_id,

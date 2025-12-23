@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { getSupabaseBrowserClient } from '../../lib/supabaseBrowserClient';
+import { createClient } from '../../lib/supabase/client';
 import { useRouter } from 'next/navigation';
 
 export default function SignupPage() {
@@ -15,7 +15,7 @@ export default function SignupPage() {
     e.preventDefault();
     setError(null);
     const email = `${username}@afcon.local`;
-    const supabase = getSupabaseBrowserClient();
+    const supabase = createClient();
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp({ email, password });
     if (signUpError) {
       setError(signUpError.message);

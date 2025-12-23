@@ -1,4 +1,4 @@
-import { getSupabaseServerClient } from '../../lib/supabaseServerClient';
+import { createClient } from '../../lib/supabase/server';
 
 /**
  * Leaderboard page.  Displays total points per user sorted descending.  It
@@ -6,7 +6,7 @@ import { getSupabaseServerClient } from '../../lib/supabaseServerClient';
  * participant names and usernames.
  */
 export default async function LeaderboardPage() {
-  const supabase = getSupabaseServerClient();
+  const supabase = createClient();
   const { data: leaderboard } = await supabase
     .from('v_leaderboard')
     .select('user_id, total_points');

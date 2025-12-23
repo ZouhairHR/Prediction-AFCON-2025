@@ -51,7 +51,7 @@ View definitions (`v_group_tables`, `v_best_thirds`, `v_knockout_brackets`, `v_p
    pnpm install
    ```
 
-2. **Copy the example environment file** and provide your Supabase credentials.  At a minimum you need `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` (or `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` if you prefer a different name).  The optional `SUPABASE_SERVICE_ROLE_KEY` is used by server actions.
+2. **Copy the example environment file** and provide your Supabase credentials.  At a minimum you need `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` (or `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` if you prefer a different name).  Do **not** expose the service role key in your runtime environment.
    ```bash
    cp .env.example .env.local
    # Edit .env.local with your SUPABASE_URL and SUPABASE_ANON_KEY

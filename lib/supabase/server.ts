@@ -1,17 +1,32 @@
-import { cookies } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
+import { cookies } from 'next/headers';
 
 /**
- * Returns a Supabase client configured for server usage.  It binds the
- * current request's cookies so that authenticated sessions are honoured.
- * On the server we can use either the service role key (with RLS still
- * enforced) or the anon key.  The service role key should be stored in
- * a secure environment variable `SUPABASE_SERVICE_ROLE_KEY`.
+ * Returns a Supabase client configured for server usage (SSR).  The client
+ * binds the current request’s cookies so that authenticated sessions are
+ * honoured.  Only the public anon key should be used for the runtime; the
+ * service role key must never be used in runtime code.
  */
 export function createClient() {
   const cookieStore = cookies();
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-  const supabaseKey =
-    process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-  return createServerClient(supabaseUrl, supabaseKey, { cookies: () => cookieStore });
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll();
+        },
+        setAll(cookiesToSet) {
+          try {
+            cookiesToSet.forEach(({ name, value, options }) => {
+              cookieStore.set(name, value, options);
+            });
+          } catch {
+            // Ignore when called from Server Components
+          }
+        },
+      },
+    },
+  );
 }

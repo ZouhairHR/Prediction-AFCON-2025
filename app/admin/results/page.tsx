@@ -42,7 +42,7 @@ export default async function AdminResultsPage() {
           >
             <input type="hidden" name="match_id" value={match.id} />
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span>{match.home_team.name}</span>
+              <span>{match.home_team?.[0]?.name ?? 'TBD'}</span>
               <input
                 type="number"
                 name="result_home"
@@ -60,14 +60,14 @@ export default async function AdminResultsPage() {
                 style={{ width: 50, textAlign: 'center' }}
                 required
               />
-              <span>{match.away_team.name}</span>
+              <span>{match.away_team?.[0]?.name ?? 'TBD'}</span>
             </div>
             {/* Penalties section for knockout stage only.  Admin can enter penalties if match is draw after regulation/extra time. */}
             {['R16', 'QF', 'SF', '3P', 'F'].includes(match.stage) && (
               <div style={{ marginTop: '0.5rem' }}>
                 <strong>Penalties (leave blank if match not decided by penalties)</strong>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.25rem' }}>
-                  <span>{match.home_team.name}</span>
+                  <span>{match.home_team?.[0]?.name ?? 'TBD'}</span>
                   <input
                     type="number"
                     name="result_pens_home"
@@ -83,7 +83,7 @@ export default async function AdminResultsPage() {
                     defaultValue={match.result_pens_away ?? ''}
                     style={{ width: 50, textAlign: 'center' }}
                   />
-                  <span>{match.away_team.name}</span>
+                  <span>{match.away_team?.[0]?.name ?? 'TBD'}</span>
                 </div>
               </div>
             )}

@@ -25,7 +25,6 @@ export async function signup(formData: FormData): Promise<void> {
 
   if (error) redirect(`/signup?error=${encodeURIComponent(error.message)}`)
 
-  // if email confirmation is ON, session may be null → go login
   if (!data.session) redirect('/login')
 
   revalidatePath('/', 'layout')

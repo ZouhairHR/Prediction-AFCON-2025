@@ -35,16 +35,20 @@ export default function PredictionForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const DEADLINE_UTC = new Date('2025-12-26T12:00:00.000Z');
   const locked = new Date() >= DEADLINE_UTC;
+  const isGroupStage = match.stage === 'GROUP';
   const drawAfter120 =
-    predHome !== '' && predAway !== '' && Number(predHome) === Number(predAway);
+    !isGroupStage &&
+    predHome !== '' &&
+    predAway !== '' &&
+    Number(predHome) === Number(predAway);
 
-  // Reset penalties when the score changes from a draw to non‑draw
+  // Reset penalties when the score changes from a draw to non‑draw or when it is group stage
   useEffect(() => {
     if (!drawAfter120) {
       setPredPensHome('');
       setPredPensAway('');
     }
-  }, [drawAfter120]);
+  }, [drawAfter120, isGroupStage]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,6 +59,7 @@ export default function PredictionForm({
     formData.append('user_id', userId);
     formData.append('pred_home', String(predHome));
     formData.append('pred_away', String(predAway));
+    // Only append penalties for knockout matches when draw predicted
     if (drawAfter120) {
       formData.append('pred_pens_home', predPensHome === '' ? '' : String(predPensHome));
       formData.append('pred_pens_away', predPensAway === '' ? '' : String(predPensAway));
@@ -65,6 +70,12 @@ export default function PredictionForm({
 
   return (
     <form onSubmit={handleSubmit} style={{ marginBottom: '1rem', padding: '1rem', background: '#fff', borderRadius: '4px', boxShadow: '0 1px 2px rgba(0,0,0,0.1)' }}>
+      {/* For knockout stages, indicate that scores are after extra time */}
+      {!isGroupStage && (
+        <p style={{ margin: 0, marginBottom: '0.5rem', fontStyle: 'italic', fontSize: '0.9rem' }}>
+          Score is after extra time (120’)
+        </p>
+      )}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span>{Array.isArray(match.home_team) ? match.home_team?.[0]?.name : match.home_team?.name}</span>
         <input
@@ -88,10 +99,10 @@ export default function PredictionForm({
         />
         <span>{Array.isArray(match.away_team) ? match.away_team?.[0]?.name : match.away_team?.name}</span>
       </div>
-      {/* Show penalty inputs if predicted AET draw */}
+      {/* Show penalty inputs only for knockout draws */}
       {drawAfter120 && (
         <div style={{ marginTop: '0.5rem' }}>
-          <strong>Penalties</strong>
+          <strong>If draw after 120’, enter penalties</strong>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.25rem' }}>
             <span>{Array.isArray(match.home_team) ? match.home_team?.[0]?.name : match.home_team?.name}</span>
             <input

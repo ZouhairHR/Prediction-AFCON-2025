@@ -5,7 +5,7 @@ import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 
 function usernameToEmail(username: string) {
-  return `${username.trim().toLowerCase()}@afcon.local`
+  return `${username.trim().toLowerCase()}@afcon.com`
 }
 
 export async function signup(formData: FormData): Promise<void> {

@@ -33,9 +33,8 @@ export default function PredictionForm({
   const [predPensHome, setPredPensHome] = useState<number | ''>(prediction?.pred_pens_home ?? '');
   const [predPensAway, setPredPensAway] = useState<number | ''>(prediction?.pred_pens_away ?? '');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const kickoff = new Date(match.kickoff_at);
-  const now = new Date();
-  const locked = now >= kickoff;
+  const DEADLINE_UTC = new Date('2025-12-26T12:00:00.000Z');
+  const locked = new Date() >= DEADLINE_UTC;
   const drawAfter120 =
     predHome !== '' && predAway !== '' && Number(predHome) === Number(predAway);
 
